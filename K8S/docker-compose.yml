@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3"
 services:
   beer-service:
     container_name: beer-service
@@ -30,8 +30,7 @@ services:
     - JWT_AUDIENCE=external-client
     - JWT_AUTHORITY=http://keycloak:8080/auth/realms/beershop
     depends_on:
-      - rabbitmq:
-        condition: service_healthy
+      - "rabbitmq"
   
   keycloak:
     container_name: keycloak

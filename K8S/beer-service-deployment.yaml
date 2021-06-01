@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    beershop.service: beer-service
+  name: beer-service
+  namespace: beershop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: beer-service
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: beer-service
+    spec:
+      containers:
+      - env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Production
+        - name: ASPNETCORE_URLS
+          value: ;http://+
+        - name: JWT_AUDIENCE
+          value: external-client
+        - name: JWT_AUTHORITY
+          value: http://keycloak:8080/auth/realms/beershop
+        - name: MONGODB_URL
+          value: mongodb://mongodb:27017
+        - name: RABBITMQ_HOST
+          value: rabbitmq
+        - name: RABBITMQ_PORT
+          value: "5672"
+        image: sebchevre/beer-service:latest
+        name: beer-service
+        ports:
+        - containerPort: 80
+        resources: {}
+      restartPolicy: Always
+status: {}

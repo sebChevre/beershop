@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: beershop
+  creationTimestamp: null
+  labels:
+    beershop.service: keycloak
+  name: keycloak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: keycloak
+    spec:
+      containers:
+      - env:
+        - name: KEYCLOAK_IMPORT
+          value: /import/beershop-realm.json
+        - name: KEYCLOAK_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: keycloak-admin-secret
+              key: password
+        - name: KEYCLOAK_USER
+          valueFrom:
+            secretKeyRef:
+              name: keycloak-admin-secret
+              key: username
+        image: jboss/keycloak
+        name: keycloak
+        ports:
+        - containerPort: 8080
+        resources: {}
+        volumeMounts:
+        - name: beershop-keycloak-volume
+          mountPath: /import
+      restartPolicy: Always
+      volumes:
+      - name: beershop-keycloak-volume
+        configMap:
+          name: beershop-keycloak-realm
+status: {}

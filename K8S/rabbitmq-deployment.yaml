@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    beershop.service: rabbitmq
+  name: rabbitmq
+  namespace: beershop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+      - image: sebchevre/rabbitmq-3.8-curl
+        livenessProbe:
+          exec:
+            command:
+            - curl
+            - -f
+            - http://localhost:15672
+          failureThreshold: 5
+          periodSeconds: 30
+          timeoutSeconds: 3
+        name: rabbitmq
+        ports:
+        - containerPort: 15672
+        - containerPort: 5672
+        resources: {}
+      restartPolicy: Always
+status: {}
