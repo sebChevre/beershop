@@ -1,21 +1,23 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: beershop
   annotations:
-    kompose.cmd: C:\dev\kompose\kompose.exe convert
-    kompose.version: 1.16.0 (0c01309)
   creationTimestamp: null
   labels:
-    io.kompose.service: mongodb
+    beershop.service: mongodb
   name: mongodb
 spec:
   replicas: 1
   strategy: {}
+  selector:
+    matchLabels:
+      app: mongodb
   template:
     metadata:
       creationTimestamp: null
       labels:
-        io.kompose.service: mongodb
+        app: mongodb
     spec:
       containers:
       - image: mongo
@@ -24,4 +26,8 @@ spec:
         - containerPort: 27017
         resources: {}
       restartPolicy: Always
+      volumes:
+      - name: mongo-data
+        persistentVolumeClaim:
+          claimName: mongo-data
 status: {}
