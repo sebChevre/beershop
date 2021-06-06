@@ -27,7 +27,7 @@ spec:
         - name: JWT_AUDIENCE
           value: external-client
         - name: JWT_AUTHORITY
-          value: http://keycloak:8080/auth/realms/beershop
+          value: http://k8s.keycloak.org/auth/realms/beershop
         - name: MONGODB_URL
           value: mongodb://mongodb:27017
         - name: RABBITMQ_HOST
