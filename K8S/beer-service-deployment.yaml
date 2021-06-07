@@ -44,6 +44,16 @@ spec:
           value: rabbitmq
         - name: RABBITMQ_PORT
           value: "5672"
+        - name: RABBITMQ_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: rabbitmq-secret
+              key: password
+        - name: RABBITMQ_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: rabbitmq-secret
+              key: password  
         image: sebchevre/beer-service:latest
         name: beer-service
         ports:

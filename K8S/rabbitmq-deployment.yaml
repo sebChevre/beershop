@@ -33,6 +33,17 @@ spec:
         ports:
         - containerPort: 15672
         - containerPort: 5672
+        env:
+          - name: RABBITMQ_DEFAULT_USER
+            valueFrom:
+              secretKeyRef:
+                name: rabbitmq-secret
+                key: username 
+          - name: RABBITMQ_DEFAULT_PASS
+            valueFrom:
+              secretKeyRef:
+                name: rabbitmq-secret
+                key: password 
         resources: {}
       restartPolicy: Always
 status: {}
