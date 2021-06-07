@@ -29,7 +29,17 @@ spec:
         - name: JWT_AUTHORITY
           value: http://k8s.keycloak.org/auth/realms/beershop
         - name: MONGODB_URL
-          value: mongodb://mongodb:27017
+          value: mongodb:27017
+        - name: MONGODB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secret
+              key: password
+        - name: MONGODB_PASS
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secret
+              key: password
         - name: RABBITMQ_HOST
           value: rabbitmq
         - name: RABBITMQ_PORT
